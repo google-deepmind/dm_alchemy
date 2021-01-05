@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "dm_alchemy/encode/precomputed_maps.proto";
+
+package alchemy;
+
+message Chemistry {
+  int32 potion_map = 1;
+  int32 stone_map = 2;
+  GraphArray.Entry graph = 3;
+  repeated float rotation = 4;
+}
+
+message TrialItems {
+  repeated int32 stones = 1;
+  repeated int32 potions = 2;
+}
+
+message EpisodeItems {
+  repeated TrialItems trial_items = 1;
+}
+
+message ChemistryAndItems {
+  Chemistry chemistry = 1;
+  EpisodeItems items = 2;
+}
+
+message ChemistriesAndItems {
+  repeated ChemistryAndItems chemistries = 1;
+}
+

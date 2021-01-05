@@ -1,0 +1,162 @@
+syntax = "proto3";
+
+package deepmind.alchemy.events;
+
+import "google/protobuf/any.proto";
+import "dm_alchemy/protos/hypercube.proto";
+import "dm_alchemy/protos/color_info.proto";
+import "dm_alchemy/protos/unity_types.proto";
+
+option csharp_namespace = "DeepMind.Alchemy.Proto";
+
+// DeepMind/Alchemy/PotionUsed
+// Dispatched when a stone is used with a potion in Alchemy.
+message PotionUsed {
+  // Instance ID of the potion's gameObject.
+  int64 potion_instance_id = 1;
+  // Instance ID of the stone's gameObject.
+  int64 stone_instance_id = 2;
+
+  // Old and new properties of the stone.
+  StoneProperties stone_properties_old = 3;
+  StoneProperties stone_properties_new = 4;
+
+  // Properties of the potion which was used.
+  PotionProperties potion_properties = 5;
+
+  // The reward associated with the event.
+  float reward = 6;
+
+  // The number of reactions left after using the potion.
+  int64 reactions_left = 7;
+}
+
+// DeepMind/Alchemy/StoneUsed
+// Dispatched when a stone is placed in the cauldron in Alchemy.
+message StoneUsed {
+  // Instance ID of the stone's gameObject.
+  int64 stone_instance_id = 1;
+
+  // Properties of the stone placed in the cauldron.
+  StoneProperties stone_properties = 2;
+
+  // The reward associated with the event.
+  float reward = 3;
+}
+
+// DeepMind/Alchemy/PotionCreated
+// Dispatched when a potion is created and placed on the table.
+message PotionCreated {
+  // Instance ID of the potion's gameObject.
+  int64 potion_instance_id = 1;
+
+  // Properties of the created potion.
+  PotionProperties potion_properties = 2;
+
+  // Location of the potion.
+  deepmind.Vector3 position = 3;
+}
+
+// DeepMind/Alchemy/StoneCreated
+// Dispatched when a stone is created and placed on the table.
+message StoneCreated {
+  // Instance ID of the stone's gameObject.
+  int64 stone_instance_id = 1;
+
+  // Properties of the created stone.
+  StoneProperties stone_properties = 2;
+
+  // Location of the stone.
+  deepmind.Vector3 position = 3;
+}
+
+// DeepMind/Alchemy/CauldronCreated
+// Dispatched when the cauldron is created and placed on the table.
+message CauldronCreated {
+  // Instance ID of the cauldron's gameObject.
+  int64 cauldron_instance_id = 1;
+
+  // Location of the cauldron.
+  deepmind.Vector3 position = 2;
+}
+
+// DeepMind/Alchemy/ChemistryCreated
+// Dispatched when a new chemistry is generated.
+message ChemistryCreated {
+  Chemistry chemistry = 1;
+  RotationMapping rotation_mapping = 2;
+  RewardMapping reward_mapping = 3;
+  PerceptualMapping perceptual_mapping = 4;
+}
+
+// DeepMind/Alchemy/StoneProperties
+// Describes the properties of a stone.
+message StoneProperties {
+  float size = 1;
+  float roundness = 2;
+  float reward = 3;
+  deepmind.Color color = 4;
+  deepmind.dmworlds.events.hypercube.HypercubeVertex latent = 5;
+}
+
+// DeepMind/Alchemy/PotionReaction
+// Describe a reaction that can be performed by a potion.
+message PotionReaction {
+  // The latent variable of the stone on which the reaction can be applied.
+  int32 from_stone_index = 1;
+
+  // The latent variable of the resulting stone we get after using the potion.
+  int32 to_stone_index = 2;
+}
+
+// DeepMind/Alchemy/PotionProperties
+// Describes the properties of a potion.
+message PotionProperties {
+  deepmind.dmworlds.events.hypercube.EdgeLabel label = 1;
+  float reward = 2;
+  deepmind.dmworlds.events.color_info.ColorInfo color = 3;
+  deepmind.dmworlds.events.color_info.ColorInfo glow_color = 4;
+  repeated PotionReaction reactions = 5;
+}
+
+// DeepMind/Alchemy/Chemistry
+// Describes the alchemy chemistry.
+message Chemistry {
+  repeated StoneProperties stones = 1;
+  repeated PotionProperties potions = 2;
+}
+
+// DeepMind/Alchemy/RotationMapping
+// Describes the alchemy rotation used to build the Chemistry.
+message RotationMapping {
+  deepmind.Vector3 rotation_angles = 1;
+}
+
+// DeepMind/Alchemy/RewardMapping
+// Describes the reward vector used to build the Chemistry.
+message RewardMapping {
+  repeated float coefficients = 1;
+  float offset = 2;
+  float bonus = 3;
+}
+
+// DeepMind/Alchemy/PerceptualMappingApplicator
+// Describes a perceptual mapping mapping used to map the latent variable.
+message PerceptualMappingApplicator {
+  enum Type {
+    UNDEFINED = 0;
+    COLOR = 1;
+    SIZE = 2;
+    ROUNDNESS = 3;
+  }
+
+  Type type = 1;
+  google.protobuf.Any start_value = 2;
+  google.protobuf.Any end_value = 3;
+}
+
+// DeepMind/Alchemy/PerceptualMapping
+// Describes the perceptual mapping used to build the Chemistry.
+message PerceptualMapping {
+  repeated PerceptualMappingApplicator applicators = 1;
+}

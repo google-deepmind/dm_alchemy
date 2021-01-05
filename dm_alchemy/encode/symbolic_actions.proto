@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "dm_alchemy/encode/precomputed_maps.proto";
+
+package alchemy;
+
+message EpisodeEvents {
+  repeated IntArray trial_events = 1;
+}
+
+message EvaluationSetEvents {
+  repeated EpisodeEvents episode_events = 1;
+}

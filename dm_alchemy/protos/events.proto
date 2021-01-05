@@ -1,0 +1,39 @@
+// Copyright 2020 DeepMind Technologies Limited
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package deepmind.dmworlds;
+
+import "google/protobuf/any.proto";
+import "dm_alchemy/protos/episode_info.proto";
+
+option csharp_namespace = "DeepMind.Proto.Events";
+
+// All events logs are made up of WorldEvents.
+message WorldEvent {
+  // Included for serialization.
+  string name = 1;
+
+  // Episode Info, including frame number, episode id and time.
+  deepmind.EpisodeInfo episode_info = 2;
+
+  // Event-specific information.
+  google.protobuf.Any detail = 3;
+}
+
+// Container for multiple `WorldEvent` protos.
+message WorldEvents {
+  repeated WorldEvent worldevents = 1;
+}

@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package alchemy;
+
+message FloatArray {
+  repeated float entries = 1;
+  repeated int32 shape = 2;
+}
+
+message IntArray {
+  repeated int32 entries = 1;
+  repeated int32 shape = 2;
+}
+
+// We use strings to represent bitfields throughout because some of our ints can
+// be greater than 64 bits so we convert to base64 encoded string.
+message BitfieldArray {
+  repeated string entries = 1;
+  repeated int32 shape = 2;
+}
+
+message ListIntsArray {
+  message Entry {
+    bool list_present = 1;
+    repeated int32 entries = 2;
+  }
+  repeated Entry entries = 1;
+  repeated int32 shape = 2;
+}
+
+message GraphArray {
+  message Entry {
+    repeated int32 edge_present = 1;
+  }
+  repeated Entry entries = 1;
+  repeated int32 shape = 2;
+}
+
+message PartialGraphIndexToPossibleIndex {
+  map<int32, int32> entries = 1;
+}
+
+message PossibleLatentDirs {
+  message Entry {
+    bool could_be_unchanged = 1;
+    repeated int32 plausible_latent_dirs = 2;
+  }
+  repeated Entry entries = 1;
+  repeated int32 shape = 2;
+}
+
+message PartialPotionMapUpdate {
+  message Entry {
+    int32 index_0 = 1;
+    int32 index_1 = 2;
+  }
+  repeated Entry entries = 1;
+  repeated int32 shape = 2;
+}
+

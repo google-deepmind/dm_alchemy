@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package deepmind.dmworlds.events.hypercube;
+
+option csharp_namespace = "DeepMind.Alchemy.Proto";
+
+// Stores the index of the latent variable associated with a stone.
+message HypercubeVertex {
+  int32 index = 1;
+  repeated int32 coordinates = 2;
+}
+
+// Stores the direction and dimension index for a hypercube edge label.
+message EdgeLabel {
+  enum Direction {
+    UNDEFINED = 0;
+    NEGATIVE = -1;
+    POSITIVE = 1;
+  }
+
+  int32 dimension_index = 1;
+  Direction direction = 2;
+}

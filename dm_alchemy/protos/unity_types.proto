@@ -1,0 +1,78 @@
+// Copyright 2020 DeepMind Technologies Limited
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/* Messages supporting the serialization of common data types used in Unity.
+ *
+ * Note: messages in this file are often sent over text proto, and as such,
+ * field names are selected in part for brevity.
+ *
+ * In particular, fixed-size array-like constructs such as Vector3, Quaternion,
+ * etc. are represented as repeated fields to reduce JSON size.
+ */
+
+syntax = "proto3";
+
+package deepmind;
+
+option csharp_namespace = "DeepMind.Proto";
+
+// Proto representation of a Unity Vector3.
+message Vector3 {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message Vector2 {
+  float x = 1;
+  float y = 2;
+}
+
+message Vector2Int {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message Vector3Int {
+  int32 x = 1;
+  int32 y = 2;
+  int32 z = 3;
+}
+
+// Proto representation of a Unity Quaternion.
+message Quaternion {
+  float w = 1;
+  float x = 2;
+  float y = 3;
+  float z = 4;
+}
+
+// Proto representation of a Unity Color.
+message Color {
+  float r = 1;
+  float g = 2;
+  float b = 3;
+  float a = 4;
+}
+
+message Transform {
+  Vector3 position = 1;
+  Vector3 local_scale = 2;
+  Quaternion local_rotation = 3;
+}
+
+message Bounds {
+  Vector3 center = 1;
+  Vector3 size = 2;
+}
