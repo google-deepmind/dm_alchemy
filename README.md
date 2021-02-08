@@ -11,7 +11,7 @@ via latent state inference, as well as useful exploration and experimentation.
 It is [Unity-based](http://unity3d.com/).
 
 <p align="center">
-    <img src="docs/gameplay.gif" align="center" width="500">
+    <img src="https://github.com/deepmind/dm_alchemy/raw/39c74512c420565b2668774d000e18ccdaac70e7/docs/gameplay.gif" align="center" width="500">
 </p>
 
 ## Overview
