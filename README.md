@@ -115,4 +115,4 @@ This is not an officially supported Google product.
 [Tutorial]: https://colab.research.google.com/github/deepmind/dm_alchemy/blob/master/examples/AlchemyGettingStarted.ipynb
 [Documentation]: docs/index.md
 [Paper]: https://arxiv.org/abs/2102.02926
-[Blog post]: https://deepmind.com/research/publications/Alchemy
+[Blog post]: https://deepmind.com/research/publications/alchemy
