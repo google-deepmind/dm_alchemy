@@ -717,11 +717,9 @@ def replay_events(game_state: GameState, event_tracker: TrialTracker) -> None:
 
 
 def matrix_events_to_action_sequence(
-    adj_mat: np.ndarray, items: utils.TrialItems,
-    matrix_events: MatrixEventTracker
+    graph: Graph, items: utils.TrialItems, matrix_events: MatrixEventTracker
 ) -> List[ActionSequenceElement]:
   """Takes events/output of evaluation analysis and creates an event tracker."""
-  graph = graphs.convert_adj_mat_to_graph(adj_mat)
   action_sequence_tracker = ActionSequenceTracker()
   game_state = GameState(
       trial_items=items, graph=graph, event_trackers=[action_sequence_tracker])
