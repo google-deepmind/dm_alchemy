@@ -52,7 +52,7 @@ Download and install Docker:
     [Windows](https://docs.docker.com/docker-for-windows/install/).
 
 Ensure that docker is working correctly by running `docker run -d
-gcr.io/deepmind-environments/dm_alchemy:v1.0.0`.
+gcr.io/deepmind-environments/alchemy:v1.0.0`.
 
 ## Installation
 
