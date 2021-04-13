@@ -9,7 +9,7 @@ degrees, but z is axis-aligned).
 
 # Actions
 
-The environment provides the following actions:
+The 3D environment provides the following actions:
 
 *   `MOVE_BACK_FORWARD`: range `[-1.0, 1.0]`
 *   `STRAFE_LEFT_RIGHT`: range `[-1.0, 1.0]`
@@ -35,9 +35,14 @@ env.step({'STRAFE_LEFT_RIGHT': 0.0,
           'MOVE_BACK_FORWARD': 0.0}) # Result: stationary.
 ```
 
+The symbolic version of Alchemy takes an integer action, corresponding to either
+performing a no-op, ending the trial (optional, specified with a flag), or
+putting stone i into potion j or the cauldron (see symbolic_alchemy.py for more
+details).
+
 # Observations
 
-The environment provides the following observations:
+The 3D environment provides the following observations:
 
 *   `RGB_INTERLEAVED`: First person RGB camera observation. The `width` and
     `height` can be adjusted through the `EnvironmentSettings`, but the
@@ -54,6 +59,11 @@ The environment provides the following observations:
 *   `HAND_DISTANCE`: Distance of hand from face, expressed as a fraction of min
     and max distance. 0 when not holding an object, otherwise between 0 and 1.
 *   `Score`: The agent's cumulative score.
+
+The symbolic version of Alchemy returns a binary or discrete vector
+representation (normalized to `[-1.0, 1.0]`) of the existing stones and potions,
+in terms of their features, as well as optional flags for whether or not they're
+used (see symbolic_alchemy.py for more details).
 
 # Configurable environment settings
 
