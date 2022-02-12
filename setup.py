@@ -118,6 +118,7 @@ setup(
         'numpy',
         'scipy>=1.4.0',
         'portpicker',
+        'frozendict',
     ],
     tests_require=['nose'],
     python_requires='>=3.6.1',
