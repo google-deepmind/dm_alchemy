@@ -2,7 +2,7 @@
 
 **[Overview](#overview)** | **[Requirements](#requirements)** |
 **[Installation](#installation)** | **[Usage](#usage)** | **[Documentation]** |
-**[Tutorial]** | **[Paper]** | **[Blog post]**
+**[Tutorial]** | **[Paper]** | **[Blog post]** | **[Microprobes]**
 
 The *DeepMind Alchemy environment* is a meta-reinforcement learning benchmark
 that presents tasks sampled from a task distribution with deep underlying
@@ -116,3 +116,4 @@ This is not an officially supported Google product.
 [Documentation]: docs/index.md
 [Paper]: https://arxiv.org/abs/2102.02926
 [Blog post]: https://deepmind.com/research/publications/alchemy
+[Microprobes]: https://colab.research.google.com/drive/1uphfztecD6odxXY1PCszMrqzSq-Ktsdi
