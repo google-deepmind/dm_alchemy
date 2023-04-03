@@ -15,11 +15,11 @@
 # ============================================================================
 """Composite alchemy types."""
 
+import dataclasses
 import enum
 import math
 from typing import Callable, Dict, List, Mapping, Optional, Sequence, Set, Union
 
-import dataclasses
 from dm_alchemy.ideal_observer import precomputed_maps
 from dm_alchemy.types import graphs
 from dm_alchemy.types import helpers
@@ -126,11 +126,11 @@ class SymbolicBot:
 @dataclasses.dataclass
 class SymbolicBots:
   """The symbolic bots we can run on alchemy."""
-  ideal_observer: SymbolicBot = SymbolicBot()
-  ideal_explorer: SymbolicBot = SymbolicBot()
-  random_action: SymbolicBot = SymbolicBot()
-  search_oracle: SymbolicBot = SymbolicBot()
-  agent_symbolic: SymbolicBot = SymbolicBot()
+  ideal_observer: SymbolicBot = dataclasses.field(default_factory=SymbolicBot)
+  ideal_explorer: SymbolicBot = dataclasses.field(default_factory=SymbolicBot)
+  random_action: SymbolicBot = dataclasses.field(default_factory=SymbolicBot)
+  search_oracle: SymbolicBot = dataclasses.field(default_factory=SymbolicBot)
+  agent_symbolic: SymbolicBot = dataclasses.field(default_factory=SymbolicBot)
 
 
 class ElementContent(enum.IntEnum):
