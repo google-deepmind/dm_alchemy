@@ -390,7 +390,7 @@ class MatrixEventTracker(TrialTracker):
 
   def __init__(self, num_stones: int, num_potions: int):
     self.events = np.full(
-        shape=(num_stones, num_potions + 1), fill_value=-1, dtype=np.int)
+        shape=(num_stones, num_potions + 1), fill_value=-1, dtype=int)
     super().__init__(name='matrix_event')
 
   def potion_used(

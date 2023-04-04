@@ -344,7 +344,7 @@ def convert_graph_to_adj_mat(graph: Graph) -> np.ndarray:
   """
   node_coords = [s.coords for s in graph.node_list.nodes]
   num_nodes = len(node_coords)
-  adj_mat = NO_EDGE * np.ones((num_nodes, num_nodes), np.int)
+  adj_mat = NO_EDGE * np.ones((num_nodes, num_nodes), int)
   for start_node, edge_list in graph.edge_list.edges.items():
     for end_node, potion_list in edge_list.items():
       from_ind = start_node.idx
@@ -519,7 +519,7 @@ def blank_known_adj_mat() -> np.ndarray:
   # each node.
   # Start with no edges and add possible edge along the edges of a cube.
   num_nodes = len(all_nodes_in_graph().nodes)
-  known_adj_mat = NO_EDGE * np.ones((num_nodes, num_nodes), dtype=np.object)
+  known_adj_mat = NO_EDGE * np.ones((num_nodes, num_nodes), dtype=object)
   for i, j in cube_edges():
     known_adj_mat[i, j] = helpers.UNKNOWN
     known_adj_mat[j, i] = helpers.UNKNOWN

@@ -109,7 +109,7 @@ def coords_to_index(coords: Reversible[int]) -> int:
 def index_to_coords(ind: int) -> np.ndarray:
   # Inverse of coords_to_index.
   return np.array([index_to_dir(int(i)) for i in reversed(np.unravel_index(
-      ind, tuple(len(_POSS_DIRS) for _ in _POSS_AXES)))], np.object)
+      ind, tuple(len(_POSS_DIRS) for _ in _POSS_AXES)))], object)
 
 
 def get_all_dim_ordering() -> List[Tuple[int, ...]]:
@@ -220,7 +220,7 @@ class PerceivedStone:
 def align_coords(
     perceived_stone: PerceivedStone, rotation: np.ndarray
 ) -> np.ndarray:
-  return np.matmul(rotation, perceived_stone.perceived_coords.astype(np.int))
+  return np.matmul(rotation, perceived_stone.perceived_coords.astype(int))
 
 
 def aligns(
@@ -234,7 +234,7 @@ def aligns(
 
 def aligned_stone_from_coords(coords: np.ndarray, reward: int) -> AlignedStone:
   coords = np.array([
-      int(round(i)) for i in coords], dtype=np.object)
+      int(round(i)) for i in coords], dtype=object)
   return AlignedStone(reward, coords)
 
 
@@ -253,13 +253,13 @@ def unalign(
 ) -> PerceivedStone:
   """Get perceived stone from aligned stone given the rotation."""
   perceived_coords = np.matmul(
-      np.linalg.inv(rotation), aligned_stone.aligned_coords.astype(np.int))
+      np.linalg.inv(rotation), aligned_stone.aligned_coords.astype(int))
   # All coords should be close to 1, 0 or -1.
   if not all(abs(apc) < 0.0001 or abs(abs(apc) - 1.0) < 0.0001
              for apc in perceived_coords):
     raise ValueError('Rotation does not take aligned stone to integer coords.')
   perceived_coords = np.array([
-      int(round(i)) for i in perceived_coords], dtype=np.object)
+      int(round(i)) for i in perceived_coords], dtype=object)
   return PerceivedStone(aligned_stone.reward, perceived_coords)
 
 
@@ -280,7 +280,7 @@ def get_new_mapping_to_old_mapping(
 def rotation_from_angles(angles: Sequence[float]) -> np.ndarray:
   """Gets rotation matrix from list of angles, scaling as required."""
   if not any(angles):
-    return np.eye(3, dtype=np.int)
+    return np.eye(3, dtype=int)
   rotation = transform.Rotation.from_euler(
       'xyz', angles, degrees=True).as_matrix()
   scale = np.diag([1.0 if angle else math.sqrt(2) for angle in angles])
@@ -290,7 +290,7 @@ def rotation_from_angles(angles: Sequence[float]) -> np.ndarray:
     raise ValueError(
         'Transformation should be all -1, 0 or 1 but is ' + str(transformation)
         + ' for angles ' + str(angles))
-  return transformation.astype(np.int)
+  return transformation.astype(int)
 
 
 def rotation_to_angles(rotation: np.ndarray) -> Sequence[float]:
@@ -486,7 +486,7 @@ def partial_stone_map_from_index(ind: PartialStoneMapIndex) -> PartialStoneMap:
   pos_dir_indices = np.unravel_index(
       ind, tuple(len(_POSS_DIRS) + 1 for _ in _POSS_AXES))
   pos_dir = np.array(
-      [index_to_unknown_dir(int(d)) for d in pos_dir_indices], np.object)
+      [index_to_unknown_dir(int(d)) for d in pos_dir_indices], object)
   return PartialStoneMap(pos_dir)
 
 

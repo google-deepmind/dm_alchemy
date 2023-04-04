@@ -259,7 +259,7 @@ class SymbolicAlchemy(dm_env.Environment, abc.ABC):
       num_possible_partial_graphs = len(
           self._precomputed.partial_graph_index_to_possible_index)
       self._possible_partial_graph_indices = np.array([
-          0 for _ in range(num_possible_partial_graphs)], dtype=np.int)
+          0 for _ in range(num_possible_partial_graphs)], dtype=int)
       for ind, i in (
           self._precomputed.partial_graph_index_to_possible_index.items()):
         self._possible_partial_graph_indices[i] = ind
@@ -818,7 +818,7 @@ def slot_based_stone_feature_dims(observe_used, rotated_stone_positions):
   poss_vals = [-1, 0, 1] if rotated_stone_positions else [-1, 1]
   return ((slice(i, potion_section, stone_features)
            for i in range(stones_and_potions.get_num_axes())),
-          np.array(poss_vals, dtype=np.float))
+          np.array(poss_vals, dtype=float))
 
 
 def slot_based_stone_reward_dims(observe_used):
@@ -828,7 +828,7 @@ def slot_based_stone_reward_dims(observe_used):
   return (slice(
       stones_and_potions.get_num_axes(), potion_section, stone_features),
           np.array([r / REWARD_SCALE for r in stones_and_potions.POSS_REWARDS],
-                   dtype=np.float))
+                   dtype=float))
 
 
 def slot_based_potion_colour_dims(observe_used):
@@ -837,7 +837,7 @@ def slot_based_potion_colour_dims(observe_used):
   potion_section = MAX_STONES * stone_features
   return (slice(potion_section, None, potion_features),
           np.array([(p / POTION_TYPE_SCALE) - 1.0
-                    for p in range(PerceivedPotion.num_types)], dtype=np.float))
+                    for p in range(PerceivedPotion.num_types)], dtype=float))
 
 
 def take_simplified_action(

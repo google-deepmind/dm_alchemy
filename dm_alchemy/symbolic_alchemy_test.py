@@ -60,7 +60,7 @@ _MAX_STEPS_PER_TRIAL = 20
 
 _FIXED_POTION_MAP = stones_and_potions.all_fixed_potion_map()
 _FIXED_STONE_MAP = stones_and_potions.all_fixed_stone_map()
-_FIXED_ROTATION = np.eye(3, dtype=np.int)
+_FIXED_ROTATION = np.eye(3, dtype=int)
 
 _CHEM_NAME = 'test_chem'
 

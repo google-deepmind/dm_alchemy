@@ -317,7 +317,7 @@ def _reconstructed_elements(
 
 _RESULT_TYPE_TO_EMPTY_RESULT = {
     # Use numpy object type to store python ints rather than numpy ints.
-    'int': lambda s: np.zeros(s, dtype=np.object),
+    'int': lambda s: np.zeros(s, dtype=object),
     # Create an array with an empty list at each entry.
     'list': lambda s: np.frompyfunc(list, 0, 1)(np.empty(s, dtype=object)),
     'tuple': lambda s: np.frompyfunc(tuple, 0, 1)(np.empty(s, dtype=object)),
@@ -509,7 +509,7 @@ def get_possible_partial_graph_indices(
           visited.add(new_partial_index)
           to_expand.append(new_partial_index)
 
-  return np.array(list(sorted(visited)), dtype=np.object)
+  return np.array(list(sorted(visited)), dtype=object)
 
 
 def get_poss_potion_maps_and_stone_maps(
@@ -799,7 +799,7 @@ def get_perm_index_conversion() -> Tuple[np.ndarray, np.ndarray]:
   num_axes = stones_and_potions.get_num_axes()
   # Use numpy object type to store python ints rather than numpy ints.
   perm_index_to_index = np.array([-1 for _ in range(num_axes ** num_axes)],
-                                 dtype=np.object)
+                                 dtype=object)
   for i, perm in enumerate(itertools.permutations(range(num_axes))):
     perm_index_to_index[np.ravel_multi_index(
         tuple(perm), tuple(num_axes for _ in range(num_axes)))] = i
@@ -808,7 +808,7 @@ def get_perm_index_conversion() -> Tuple[np.ndarray, np.ndarray]:
   index_to_perm_index = np.array(
       [int(np.ravel_multi_index(
           tuple(perm), tuple(num_axes for _ in range(num_axes))))
-       for perm in itertools.permutations(range(3))], dtype=np.object)
+       for perm in itertools.permutations(range(3))], dtype=object)
 
   return perm_index_to_index, index_to_perm_index
 
@@ -916,9 +916,9 @@ def get_precomputed_maps(
   # numpy ints so that we get arbitrary precision which allows us to make
   # bitfields easily.
 
-  stone_maps = np.array([s.index() for s in poss_stone_maps], dtype=np.object)
+  stone_maps = np.array([s.index() for s in poss_stone_maps], dtype=object)
   potion_maps = np.array([p.index(perm_index_to_index) for p in
-                          poss_potion_maps], dtype=np.object)
+                          poss_potion_maps], dtype=object)
 
   # The graph distribution is an unordered mapping, we sort it to make debugging
   # easier and so that we can extract a list of graphs and a list of
@@ -934,11 +934,11 @@ def get_precomputed_maps(
       graphs_distr_constraints), key=lambda x: (x[2], str(x[1])))
   graphs_list = np.frompyfunc(graphs.Graph, 2, 1)(
       np.array([g[0].node_list for g, _, _ in graphs_distr_sorted],
-               dtype=np.object),
+               dtype=object),
       np.array([g[0].edge_list for g, _, _ in graphs_distr_sorted],
-               dtype=np.object))
+               dtype=object))
   graph_index_distr = np.array([g[1] for g, _, _ in graphs_distr_sorted],
-                               dtype=np.object)
+                               dtype=object)
 
   graphs_with_edge = get_graphs_with_edge(graphs_list, index_to_perm_index)
 
@@ -970,12 +970,12 @@ def get_precomputed_maps(
   stone_to_reward = np.array(
       [aligned_stone_from_index(AlignedStoneIndex(i)).reward
        for i in range(stones_and_potions.AlignedStone.num_types)],
-      dtype=np.object)
+      dtype=object)
   # A map from a perceived stone to an index which ignores the reward.
   drop_reward = np.array(
       [aligned_stone_from_index(AlignedStoneIndex(i)).coords_only_index()
        for i in range(stones_and_potions.AlignedStone.num_types)],
-      dtype=np.object)
+      dtype=object)
 
   # Compute a list of possible outcomes (perceived stones) given a perceived
   # stone which we apply a potion to.
@@ -997,16 +997,16 @@ def get_precomputed_maps(
     mask = int(''.join([''.join(binary_list) for _ in range(
         stones_and_potions.LatentStone.num_types)]), 2)
     potion_masks_list.append(mask)
-  potion_masks = np.array(potion_masks_list, dtype=np.object)
+  potion_masks = np.array(potion_masks_list, dtype=object)
 
   perceived_potions = np.array(
       [perceived_potion_from_index(PerceivedPotionIndex(i)) for i in range(
           stones_and_potions.PerceivedPotion.num_types)],
-      dtype=np.object)
+      dtype=object)
   potion_to_pair = np.array(
       [stones_and_potions.PerceivedPotion(
           perceived_dim=p.perceived_dim, perceived_dir=-p.perceived_dir).index()
-       for p in perceived_potions], dtype=np.object)
+       for p in perceived_potions], dtype=object)
 
   edge_exists = get_edge_exists(possible_partial_graph_indices)
 

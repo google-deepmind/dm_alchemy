@@ -512,7 +512,7 @@ class ItemsUsedTracker(StatTracker):
     return self.NAME
 
   def __init__(self):
-    self.prev_items = np.zeros((2,), dtype=np.int)
+    self.prev_items = np.zeros((2,), dtype=int)
     self.game_state: Optional[GameState] = None
 
     def latest_items_used(
@@ -523,18 +523,18 @@ class ItemsUsedTracker(StatTracker):
       items_used = tracker.game_state.trackers['items_used']
       cumul_items_used = np.array(
           [items_used.num_potions_used, items_used.num_stones_used],
-          dtype=np.int)
+          dtype=int)
       items_used = cumul_items_used - tracker.prev_items
       tracker.prev_items = cumul_items_used
       return items_used
 
     super().__init__(get_stat=latest_items_used,
-                     init_step_stat=np.zeros((2,), dtype=np.int))
+                     init_step_stat=np.zeros((2,), dtype=int))
 
   def trial_start(self, game_state: GameState) -> None:
     self.game_state = game_state
     game_state.add_event_trackers([event_tracker.ItemsUsedTracker()])
-    self.prev_items = np.zeros((2,), dtype=np.int)
+    self.prev_items = np.zeros((2,), dtype=int)
     super().trial_start(game_state)
 
 

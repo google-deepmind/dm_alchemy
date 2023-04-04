@@ -137,9 +137,9 @@ def latent_stone_to_unity(
 
 def _unity_to_latent_stone(
     latent: hypercube_pb2.HypercubeVertex) -> LatentStone:
-  # Use numpy object type to store python ints rather than numpy ints.
+  # Use object type to store python ints rather than numpy ints.
   return LatentStone(np.array([int(coord) for coord in latent.coordinates],
-                              dtype=np.object))
+                              dtype=object))
 
 
 def perceptual_features(perceived_stone: PerceivedStone) -> Dict[str, Any]:
@@ -172,7 +172,7 @@ def unity_to_perceived_stone(
   roundness = _COORD_AT_ROUNDNESS[round(stone_properties.roundness, 1)]
   colour = _COORD_AT_COLOUR[colour_proto_to_hashable(stone_properties.color)]
   # Use numpy object type to store python ints rather than numpy ints.
-  perceived_coords = np.array([0, 0, 0], dtype=np.float)
+  perceived_coords = np.array([0, 0, 0], dtype=float)
   perceived_coords[AXIS_NUMBER[SIZE_TYPE]] = size
   perceived_coords[AXIS_NUMBER[ROUNDNESS_TYPE]] = roundness
   perceived_coords[AXIS_NUMBER[COLOR_TYPE]] = colour
@@ -351,7 +351,7 @@ def _get_aligned_coords_matching_latent(
     python_stones: Sequence[Tuple[PerceivedStone, AlignedStone, LatentStone]],
     latent_coords: Sequence[int]
 ) -> np.ndarray:
-  return [aligned_stone.aligned_coords.astype(np.int)
+  return [aligned_stone.aligned_coords.astype(int)
           for _, aligned_stone, latent_stone in python_stones
           if latent_stone.latent_coords.tolist() == latent_coords][0]
 
@@ -367,10 +367,10 @@ def find_dim_map_and_stone_map(
   perceived_stones = [stones_and_potions.unalign(stone, chemistry.rotation)
                       for stone in aligned_stones]
 
-  for dim_map in [np.eye(3, dtype=np.int)[p, :] for p in itertools.permutations(
+  for dim_map in [np.eye(3, dtype=int)[p, :] for p in itertools.permutations(
       [0, 1, 2])]:
     for stone_map in stones_and_potions.possible_stone_maps():
-      sm = np.diag(stone_map.latent_pos_dir.astype(np.int))
+      sm = np.diag(stone_map.latent_pos_dir.astype(int))
       # Since we do rotation before reflection in this case we must allow
       # rotation forwards and backwards to get all cases.
       # Because of the scaling this is not just the inverse matrix.
@@ -380,10 +380,10 @@ def find_dim_map_and_stone_map(
       for rotation in [chemistry.rotation, inverse_rotation]:
         all_match = True
         for ls, ps in zip(latent_stones, perceived_stones):
-          new_ls = np.matmul(dim_map, ls.latent_coords.astype(np.int))
+          new_ls = np.matmul(dim_map, ls.latent_coords.astype(int))
           ps_prime = np.matmul(sm, np.matmul(np.linalg.inv(rotation), new_ls))
           if not all(abs(a - b) < 0.0001 for a, b in zip(
-              ps_prime, ps.perceived_coords.astype(np.int))):
+              ps_prime, ps.perceived_coords.astype(int))):
             all_match = False
             break
         if all_match:
@@ -397,8 +397,8 @@ def _apply_dim_map_to_stone(
     dim_map: np.ndarray, latent_stone: LatentStone
 ) -> LatentStone:
   coords = np.rint(np.matmul(
-      dim_map, latent_stone.latent_coords.astype(np.int)))
-  return LatentStone(np.array([int(c) for c in coords], np.object))
+      dim_map, latent_stone.latent_coords.astype(int)))
+  return LatentStone(np.array([int(c) for c in coords], object))
 
 
 def _apply_dim_map_to_potion(
@@ -530,14 +530,14 @@ def from_unity_chemistry(
   sm_prime = np.diag(sum_of_each_row)
   # a * [1, 1, 1] - a * [-1, 1, 1] = 2 * [a11, a21, a31]
   first_column = ((sum_of_each_row - _get_aligned_coords_matching_latent(
-      python_stones, [-1, 1, 1]))/2).astype(np.int)
+      python_stones, [-1, 1, 1]))/2).astype(int)
   second_column = ((sum_of_each_row - _get_aligned_coords_matching_latent(
-      python_stones, [1, -1, 1]))/2).astype(np.int)
+      python_stones, [1, -1, 1]))/2).astype(int)
   third_column = ((sum_of_each_row - _get_aligned_coords_matching_latent(
-      python_stones, [1, 1, -1]))/2).astype(np.int)
+      python_stones, [1, 1, -1]))/2).astype(int)
   a = np.hstack((first_column.reshape((3, 1)), second_column.reshape((3, 1)),
                  third_column.reshape((3, 1))))
-  dim_map = np.rint(np.matmul(np.linalg.inv(sm_prime), a)).astype(np.int)
+  dim_map = np.rint(np.matmul(np.linalg.inv(sm_prime), a)).astype(int)
 
   latent_stones = [latent_stone for _, _, latent_stone in python_stones]
   aligned_stones = [aligned_stone for _, aligned_stone, _ in python_stones]

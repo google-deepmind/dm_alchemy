@@ -120,7 +120,7 @@ class BotRunningTracker(symbolic_alchemy_trackers.SymbolicAlchemyTracker):
     ep_returns = self.envs[0].episode_returns()
     def to_float(arg: Any) -> Any:
       if isinstance(arg, np.ndarray):
-        return arg.astype(np.float)
+        return arg.astype(float)
       return float(arg)
 
     return tree.map_structure(to_float, ep_returns)

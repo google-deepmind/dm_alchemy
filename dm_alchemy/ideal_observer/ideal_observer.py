@@ -102,7 +102,7 @@ class WorldStateDistribution:
 
     self.poss_world_states = np.zeros((
         len(potion_map_distr), len(stone_map_distr),
-        precomputed.graph_index_distr.shape[0]), dtype=np.float)
+        precomputed.graph_index_distr.shape[0]), dtype=float)
     for potion_map_index, p1 in enumerate(potion_map_distr.values()):
       for stone_map_index, p2 in enumerate(stone_map_distr.values()):
         for graph_index, p3 in enumerate(precomputed.graph_index_distr):

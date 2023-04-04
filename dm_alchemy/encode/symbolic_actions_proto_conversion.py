@@ -36,7 +36,7 @@ def proto_to_trial_events(
 ) -> event_tracker.MatrixEventTracker:
   trial_tracker = event_tracker.MatrixEventTracker(
       num_stones=proto.shape[0], num_potions=proto.shape[1] - 1)
-  trial_tracker.events = np.array(proto.entries, dtype=np.int).reshape(
+  trial_tracker.events = np.array(proto.entries, dtype=int).reshape(
       proto.shape)
   return trial_tracker
 
